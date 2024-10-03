@@ -44,7 +44,6 @@ async def hello():
 # 新增hi路由
 @app.get("/hi")
 async def hi():
-    # 返回带有按钮的HTML页面
     return HTMLResponse(
         """
         <html>
@@ -54,27 +53,21 @@ async def hi():
             function showInfo() {
                 // 获取本地时间
                 var localTime = new Date().toLocaleString();
-                // 获取位置信息（需要用户授权）
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-                    // 发送请求获取服务器时间
-                    fetch('/server_time')
-                        .then(response => response.text())
-                        .then(serverTime => {
-                            // 显示所有信息
-                            document.getElementById('info').innerHTML = 
-                                '本地时间: ' + localTime + '<br>' +
-                                '位置: 纬度 ' + lat + ', 经度 ' + lon + '<br>' +
-                                '服务器时间: ' + serverTime;
-                        });
-                });
+                // 发送请求获取服务器时间
+                fetch('/server_time')
+                    .then(response => response.text())
+                    .then(serverTime => {
+                        // 显示时间信息
+                        document.getElementById('info').innerHTML = 
+                            '本地时间: ' + localTime + '<br>' +
+                            '服务器时间: ' + serverTime;
+                    });
             }
             </script>
         </head>
         <body>
             <h1>欢迎来到Hi页面</h1>
-            <button onclick="showInfo()">显示信息</button>
+            <button onclick="showInfo()">显示时间信息</button>
             <div id="info"></div>
         </body>
         </html>
